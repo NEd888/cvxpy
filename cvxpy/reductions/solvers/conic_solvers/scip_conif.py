@@ -51,14 +51,14 @@ STATUS_MAP = {
     "unbounded": s.UNBOUNDED,
     "inforunbd": s.INFEASIBLE_OR_UNBOUNDED,
     # ERROR
-    "userinterrupt": s.SOLVER_ERROR,
-    "memlimit": s.SOLVER_ERROR,
-    "sollimit": s.SOLVER_ERROR,
-    "nodelimit": s.SOLVER_ERROR,
-    "totalnodelimit": s.SOLVER_ERROR,
-    "stallnodelimit": s.SOLVER_ERROR,
-    "restartlimit": s.SOLVER_ERROR,
-    "unknown": s.SOLVER_ERROR,
+    "userinterrupt": s.USER_LIMIT,
+    "memlimit": s.USER_LIMIT,
+    "sollimit": s.USER_LIMIT,
+    "nodelimit": s.USER_LIMIT,
+    "totalnodelimit": s.USER_LIMIT,
+    "stallnodelimit": s.USER_LIMIT,
+    "restartlimit": s.USER_LIMIT,
+    "unknown": s.USER_LIMIT,
 }
 
 
@@ -346,7 +346,7 @@ class SCIP(ConicSolver):
 
         solution[s.SOLVE_TIME] = model.getSolvingTime()
         solution["status"] = STATUS_MAP[model.getStatus()]
-        if solution["status"] == s.SOLVER_ERROR and model.getNCountedSols() > 0:
+        if solution["status"] == s.USER_LIMIT and model.getNCountedSols() > 0:
             solution["status"] = s.OPTIMAL_INACCURATE
 
         return solution
